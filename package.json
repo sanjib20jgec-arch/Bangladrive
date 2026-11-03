@@ -1,0 +1,23 @@
+{
+  "name": "desi-overdrive-bangla-drift",
+  "private": true,
+  "version": "5.0.0",
+  "description": "DESI OVERDRIVE: BANGLA DRIFT - Three.js + Rapier open-world arcade racer (Bengali comedy tone)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "test": "node tools/smoke_test.mjs"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.14.0",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.43.1",
+    "terser": "^5.36.0",
+    "vite": "^5.4.11",
+    "vite-plugin-singlefile": "^2.0.3"
+  }
+}

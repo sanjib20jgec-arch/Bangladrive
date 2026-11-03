@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" href="data:," />
+    <title>DESI OVERDRIVE — look-dev</title>
+    <style>
+      :root { color-scheme: dark; }
+      html, body { margin: 0; height: 100%; background: #14161a; overflow: hidden; }
+      canvas { display: block; }
+      #hud {
+        position: fixed; left: 12px; top: 12px; z-index: 5;
+        font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: #e8e4da; background: rgba(18, 20, 24, 0.78);
+        border: 1px solid rgba(232, 228, 218, 0.18); border-radius: 8px;
+        padding: 10px 12px; max-width: 420px; white-space: pre-wrap;
+        pointer-events: none;
+      }
+      #hud b { color: #ffd9a0; font-weight: 600; }
+      #hud .pass { color: #9ade9a; }
+      #hud .fail { color: #ff8b7a; }
+      #keys {
+        position: fixed; right: 12px; bottom: 12px; z-index: 5;
+        font: 11px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: rgba(232, 228, 218, 0.8); background: rgba(18, 20, 24, 0.72);
+        border: 1px solid rgba(232, 228, 218, 0.16); border-radius: 8px;
+        padding: 8px 10px; pointer-events: none; text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">booting…</div>
+    <div id="keys">
+      <div><b>[C]</b> clay render &nbsp; <b>[S]</b> solid</div>
+      <div><b>[H]</b> CAM_A_HERO &nbsp; <b>[M]</b> MP1 lateral 2 m</div>
+      <div><b>[1]</b> facade close &nbsp; <b>[2]</b> down-street</div>
+    </div>
+    <script type="module" src="/src/lookdev/main.js"></script>
+  </body>
+</html>
