@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Desi Overdrive: Bangla Drift</string>
+    <string name="title_activity_main">Desi Overdrive: Bangla Drift</string>
+    <string name="package_name">com.desioverdrive.bangladrift</string>
+    <string name="custom_url_scheme">com.desioverdrive.bangladrift</string>
+</resources>

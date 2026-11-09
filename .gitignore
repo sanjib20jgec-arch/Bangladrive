@@ -1,0 +1,26 @@
+# JavaScript dependencies and Vite output
+node_modules/
+dist/
+dist-single/
+.vite/
+
+# Capacitor / Android generated files
+android/.gradle/
+android/captures/
+android/app/build/
+android/app/src/main/assets/public/
+android/build/
+android/local.properties
+android/.idea/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Local development and OS noise
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+!.env.example

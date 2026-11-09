@@ -1,24 +1,34 @@
 import { defineConfig } from 'vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 
-/**
- * Cycle 20: one HTML file, no external requests.
- * - target es2019 for Android WebView / Chrome 90+
- * - terser for dead-code elimination and mangling
- * - singlefile inlines JS, CSS and the Rapier WASM (base64) into index.html
- */
+const singleFile = process.env.BUILD_MODE === 'singlefile';
+
+function vendorChunk(id) {
+  if (!id.includes('node_modules')) return undefined;
+  if (id.includes('/three/')) return 'vendor-three';
+  if (id.includes('/@dimforge/rapier3d-compat/')) return 'vendor-rapier';
+  return 'vendor';
+}
+
 export default defineConfig({
+  // Relative URLs work both from Vite preview and Capacitor's local https://localhost origin.
   base: './',
-  plugins: [viteSingleFile({ removeViteModuleLoader: true })],
+  plugins: singleFile ? [viteSingleFile({ removeViteModuleLoader: true })] : [],
   build: {
-    target: 'es2019',
+    outDir: singleFile ? 'dist-single' : 'dist',
+    emptyOutDir: true,
+    target: 'es2020',
     minify: 'terser',
     cssMinify: true,
     sourcemap: false,
-    assetsInlineLimit: 100_000_000,
-    chunkSizeWarningLimit: 12_000,
+    // Keep WASM, fonts, GLBs, and larger textures as files for Android WebView.
+    // Tiny icons/data assets may still be inlined.
+    assetsInlineLimit: singleFile ? 100_000_000 : 4096,
+    chunkSizeWarningLimit: 1500,
     rollupOptions: {
-      output: { inlineDynamicImports: true },
+      output: {
+        ...(singleFile ? { inlineDynamicImports: true } : { manualChunks: vendorChunk }),
+      },
       onwarn(warning, warn) {
         if (warning.code === 'CIRCULAR_DEPENDENCY') return;
         warn(warning);
