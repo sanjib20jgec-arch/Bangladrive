@@ -6,7 +6,8 @@ const TIERS = [
   { time: 3.8, torque: 1.5, seconds: 2, nitro: 0.25, color: '#ffc844' },
 ];
 export class DriftController {
-  constructor() { this.duration = 0; this.boostTime = 0; this.boostMultiplier = 1; this.tier = 0; this.slip = 0; }
+  constructor() { this.reset(); }
+  reset() { this.duration = 0; this.boostTime = 0; this.boostMultiplier = 1; this.tier = 0; this.slip = 0; }
   update(dt, lateral, forward, handbrake, nitroMax = 100) {
     this.slip = Math.atan2(Math.abs(lateral), Math.max(0.5, Math.abs(forward)));
     const drifting = this.slip > 0.28 && Math.abs(forward) > 3;
