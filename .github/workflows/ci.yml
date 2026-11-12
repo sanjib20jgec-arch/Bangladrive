@@ -1,0 +1,29 @@
+name: Source checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # The source smoke tests do not use a browser; browser coverage is a separate gate.
+      PUPPETEER_SKIP_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run source smoke tests
+        run: npm test
+      - name: Build production web bundle
+        run: npm run build

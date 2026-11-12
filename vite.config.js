@@ -47,7 +47,8 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     strictPort: false,
-    allowedHosts: true,
+    // Allow Arena previews without accepting arbitrary Host headers.
+    allowedHosts: ['.e2b.app'],
   },
-  preview: { host: '0.0.0.0', port: 4173, allowedHosts: true },
+  preview: { host: '0.0.0.0', port: 4173, allowedHosts: ['.e2b.app'] },
 });
