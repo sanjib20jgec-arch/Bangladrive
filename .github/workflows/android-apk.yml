@@ -1,0 +1,54 @@
+name: Build Android debug APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: Build installable debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: '1'
+    steps:
+      - name: Check out selected branch
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android SDK packages
+        run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Install locked JavaScript dependencies
+        run: npm ci
+      - name: Run source smoke tests
+        run: npm test
+      - name: Build web assets, sync Capacitor and assemble APK
+        run: npm run android:apk:debug
+      - name: Verify and checksum APK
+        working-directory: android/app/build/outputs/apk/debug
+        run: |
+          test -s app-debug.apk
+          sha256sum app-debug.apk > app-debug.apk.sha256
+      - name: Upload APK and checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: bangladrive-debug-apk
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/apk/debug/app-debug.apk.sha256
+          if-no-files-found: error
+          retention-days: 14
