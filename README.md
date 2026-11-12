@@ -58,7 +58,7 @@ npm run build          # chunked web/Android-oriented Vite output in dist/
 npm run build:android  # same build
 npm run build:singlefile # portable single HTML output in dist-single/
 npm run android:sync   # Vite build + Capacitor sync
-npm run android:apk:debug # debug APK (requires JDK 17+ + Android SDK)
+npm run android:apk:debug # debug APK (requires JDK 21 + Android SDK)
 npm test               # source-level smoke checks
 ```
 
@@ -96,6 +96,17 @@ These are prototype-level implementations. Collisions, vehicle handling, progres
 - `src/native/` — Capacitor lifecycle, haptics, preferences and TTS bridge.
 - `src/ui/` — Garage, mode, touch settings.
 - `tools/smoke_test.mjs` — unit-level smoke checks; not a browser/device gate.
+
+## Build an Android APK on GitHub
+
+The **Build Android debug APK** workflow (`.github/workflows/android-apk.yml`) is manually triggered and requires no signing secrets. Once the workflow file is present on the repository’s default branch (for example, after merging this change):
+
+1. Open the repository on GitHub → **Actions** → **Build Android debug APK**.
+2. Select **Run workflow**, choose the branch to build, and press **Run workflow**. Wait for the job to finish; inspect its logs if it fails.
+3. Open the completed run and download the **bangladrive-debug-apk** artifact. GitHub provides a ZIP containing `app-debug.apk` and its SHA-256 checksum; artifacts expire after 14 days (or earlier if repository policy limits retention).
+4. Extract the APK, transfer it to an Android phone running Android 7.0/API 24 or newer, and open it to install. Android may ask you to allow installation from the app used to open it; enable this only for a trusted source and turn it off afterwards. Compare the file against the included checksum if desired.
+
+This is a **debug-signed testing build**, not a Play Store release. Each GitHub-hosted run may use a different debug signing key, so Android may refuse to update a previously installed build; uninstalling that build can erase its local game data. A stable release key and release signing need a separate, secure setup. The workflow does not establish device compatibility or complete the pending privacy, licensing, accessibility and performance gates.
 
 ## Android / Capacitor
 
